@@ -1,0 +1,142 @@
+@import 'tailwindcss';
+
+/* =========================================================================
+   디자인 시스템 — 다크 "커맨드센터"
+   라이트/다크 테마는 :root[data-theme] 로 전환. 색상은 CSS 변수로 관리하고
+   Tailwind v4 @theme 에 연결해 bg-surface / text-muted 같은 유틸로 사용.
+   ========================================================================= */
+:root,
+:root[data-theme='dark'] {
+  --bg: #0b1220;
+  --surface: #131c2e;
+  --surface-2: #18233a;
+  --border: #1e2a44;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #22d3ee; /* electric cyan — 1순위 강조 */
+  --accent-2: #f5b301; /* amber — 2순위/경고 */
+  --pos: #34d399; /* 증가 */
+  --neg: #f87171; /* 감소 */
+  --grid: #1e2a44;
+  --glow: rgba(34, 211, 238, 0.16);
+  --shadow: rgba(0, 0, 0, 0.45);
+}
+
+:root[data-theme='light'] {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #0891b2;
+  --accent-2: #d97706;
+  --pos: #059669;
+  --neg: #dc2626;
+  --grid: #e2e8f0;
+  --glow: rgba(8, 145, 178, 0.14);
+  --shadow: rgba(15, 23, 42, 0.12);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+  --font-sans: 'Pretendard', system-ui, -apple-system, sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* 숫자는 tabular-nums 로 정렬감 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* 카드 — hover 시 살짝 떠오르는 elevation + 시안 글로우 */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: 0 10px 30px -12px var(--shadow), 0 0 0 1px var(--glow),
+    0 0 24px -6px var(--glow);
+}
+
+/* 스크롤바 */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 차트 마운트 시 부드러운 페이드/슬라이드 */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mount-anim {
+  animation: fadeUp 0.4s ease-out both;
+}
+
+/* 필터 칩 */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* recharts 포커스 외곽선 제거 */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
+.recharts-default-tooltip {
+  border-radius: 10px !important;
+}

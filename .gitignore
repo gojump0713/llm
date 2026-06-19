@@ -1,0 +1,11 @@
+# dependencies
+node_modules/
+
+# build output (CI에서 빌드/배포)
+dist/
+
+# logs & misc
+*.log
+npm-debug.log*
+.DS_Store
+.vite/
